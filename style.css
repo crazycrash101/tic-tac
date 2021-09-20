@@ -1,0 +1,15 @@
+#gridContainer {
+    display: grid;
+    width: 450px;
+    height: 450px;
+    margin: auto;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-auto-rows: 1fr 1fr 1fr;
+    grid-gap: 4px;
+}
+#gridContainer > div {
+    background-color: lightgrey;
+    border-radius: 4px;
+    text-align: center;
+}
