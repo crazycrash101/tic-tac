@@ -1,9 +1,3 @@
-function removeAllChildNodes(parent) {
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
-    }
-}
-
 const Game = () => {
     let gameBoard = new Array(3);
     for(let i =0;i<3;i++){
@@ -22,8 +16,8 @@ const Game = () => {
     const boardPlay = (i,j,value) => {
         if (!gameBoard[i][j]){
             gameBoard[i][j] = value;
-            displayContents();
         }
+        displayContents();
     }
 
     const displayBoard = () => {
@@ -35,10 +29,8 @@ const Game = () => {
 }
 let newGame = Game();
 
-
-function displayContents() {
+function generateGrid() {
     let gridContainer = document.querySelector('#gridContainer')
-    removeAllChildNodes(gridContainer);
     for (let i =0;i<3;i++){
         for (let j=0;j<3;j++){
             let newdiv = document.createElement('div');
@@ -50,19 +42,39 @@ function displayContents() {
         }
     }
 }
-displayContents();
+generateGrid();
 
+function displayContents() {
+    let gridSquares = document.querySelectorAll('.gridSquares');
+    gridSquares.forEach(grid => {
+        let i = Number(grid.dataset.rowNumber);
+        let j = Number(grid.dataset.columnNumber);
+        grid.textContent = newGame.gameBoard[i][j];
+    })
+}
+
+let clearButton = document.getElementById('clear');
+clearButton.addEventListener('click',e=> {
+    newGame.clearBoard();
+})
+
+let gridSquares = document.querySelectorAll('.gridSquares');
+gridSquares.forEach(grid => {
+    grid.addEventListener('click',e => {
+        newGame.boardPlay(Number(grid.dataset.rowNumber),Number(grid.dataset.columnNumber),'X');
+    })
+})
 
 const Player = (name,symbol) => {
-    let gridSquares = document.querySelectorAll('.gridSquares');
+   
     
     if (symbol === 'X') {
         gridSquares.forEach(grid => {
             grid.addEventListener('click',e => {
-                newGame.boardPlay(grid.dataset.rowNumber,grid.dataset.columnNumber,'X');
+                newGame.boardPlay(Number(grid.dataset.rowNumber),Number(grid.dataset.columnNumber),'X');
             })
         })
-    } else if (symbol === "O") {
+    }   else if (symbol === "O") {
         gridSquares.forEach(grid => {
             grid.addEventListener('click',e => {
                 newGame.boardPlay(grid.dataset.rowNumber,grid.dataset.columnNumber,'O');
@@ -72,12 +84,6 @@ const Player = (name,symbol) => {
     
     return {name}
 }
-let player1 = Player('Sam','X');
-let player2 = Player('Bot','O');
 
-let clearButton = document.getElementById('clear');
-clearButton.addEventListener('click',e=> {
-    newGame.clearBoard();
-})
 
 
