@@ -17,6 +17,9 @@
     padding-top: 10px;
 
 }
+#gridContainer > div:hover {
+    background-color: darkgray;
+}
 
 #clear {
     display: block;
